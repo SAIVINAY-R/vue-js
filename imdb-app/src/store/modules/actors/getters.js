@@ -1,9 +1,19 @@
 export default {
     get(state) {
-        var actorNameList = []
+        var actors = []
         for(let i = 0; i < state.actors.length; i++) {
-            actorNameList.push(state.actors[i].Name);
+            actors.push({
+                text: state.actors[i].name,
+                value: state.actors[i].id
+            });
+
         }
-        return actorNameList;
+        return actors;
     },
+    getActors(state) {
+        return state.actors;
+    },
+    hasActors(state) {
+        return state.actors && state.actors.length > 0;
+    }
 }

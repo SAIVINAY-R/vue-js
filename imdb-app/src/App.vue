@@ -3,6 +3,7 @@
     <v-navigation-drawer
       v-model="drawer"
       app
+      temporary
     >
       <v-list-item>
         <span class="mdi mdi-window-close" @click="drawer = !drawer"></span>
@@ -32,28 +33,28 @@
           link
         >
           <v-list-item-content>
-            <v-list-item-title class="text-h6"><router-link to="/movies">Movies</router-link></v-list-item-title>
+            <router-link to="/movies"><v-list-item-title class="text-h6">Movies</v-list-item-title></router-link>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
           link
         >
           <v-list-item-content>
-            <v-list-item-title class="text-h6"><router-link to="/actors">Actors</router-link></v-list-item-title>
+            <router-link to="/actors"><v-list-item-title class="text-h6">Actors</v-list-item-title></router-link>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
           link
         >
           <v-list-item-content>
-            <v-list-item-title class="text-h6"><router-link to="/producers">Producers</router-link></v-list-item-title>
+            <router-link to="/producers"><v-list-item-title class="text-h6">Producers</v-list-item-title></router-link>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
           link
         >
           <v-list-item-content>
-            <v-list-item-title class="text-h6"><router-link to="/genres">Genres</router-link></v-list-item-title>
+            <router-link to="/genres"><v-list-item-title class="text-h6">Genres</v-list-item-title></router-link>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -85,7 +86,27 @@ export default {
   },
 
   data: () => ({
-    drawer: null,
+    drawer: false,
   }),
+  methods: {
+    loadMovies() {
+      this.$store.dispatch('movies/loadMovies')
+    },
+    loadActors() {
+      this.$store.dispatch('actors/loadActors')
+    },
+    loadProducers() {
+      this.$store.dispatch('producers/loadProducers')
+    },
+    loadGenres() {
+      this.$store.dispatch('genres/loadGenres')
+    }
+  },
+  created() {
+    this.loadMovies();
+    this.loadActors();
+    this.loadProducers();
+    this.loadGenres();
+  }
 };
 </script>

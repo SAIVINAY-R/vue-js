@@ -1,9 +1,18 @@
 export default {
     get(state) {
-        var producerNameList = []
+        var producers = []
         for(let i = 0; i < state.producers.length; i++) {
-            producerNameList.push(state.producers[i].Name);
+            producers.push({
+                text: state.producers[i].name,
+                value: state.producers[i].id
+            })
         }
-        return producerNameList;
+        return producers;
     },
+    getProducers(state) {
+        return state.producers;
+    },
+    hasProducers(state) {
+        return state.producers && state.producers.length > 0;
+    }
 }

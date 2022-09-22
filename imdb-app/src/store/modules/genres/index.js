@@ -6,23 +6,7 @@ export default {
     namespaced: true,
     state() {
         return {
-            genres: [
-                {
-                    Name: "Genre1"
-                },
-                {
-                    Name: "Genre2"
-                },
-                {
-                    Name: "Genre3"
-                },
-                {
-                    Name: "Genre4"
-                },
-                {
-                    Name: "Genre5"
-                }
-            ]
+            genres: []
         }
     },
     mutations,

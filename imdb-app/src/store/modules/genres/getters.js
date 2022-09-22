@@ -1,9 +1,16 @@
 export default {
     get(state) {
-        var genreList = []
+        var genres = []
         for(let i = 0; i < state.genres.length; i++) {
-            genreList.push(state.genres[i].Name);
+            genres.push({
+                text: state.genres[i].name,
+                value: state.genres[i].id
+            })
+
         }
-        return genreList;
+        return genres;
     },
+    hasGenres(state) {
+        return state.genres && state.genres.length > 0;
+    }
 }

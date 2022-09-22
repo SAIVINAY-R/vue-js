@@ -2,7 +2,7 @@
     <v-dialog v-model="show" max-width="500">
       <v-card>
         <v-card-title class="justify-center">
-          <h3>Delete {{ movie.Name }}</h3>
+          <h3>Delete {{ movie.name }}</h3>
         </v-card-title>
         <v-card-text class="justify-center text-h3">
           Are you sure?
@@ -34,7 +34,7 @@ export default {
     methods: {
         deleteMovie() {
             this.show = false
-            this.$store.dispatch('movies/removeFromMovies', {name: this.movie.Name})
+            this.$store.dispatch('movies/deleteMovie', {id: this.movie.id})
         }
     }
 }

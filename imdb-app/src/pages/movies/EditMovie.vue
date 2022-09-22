@@ -1,26 +1,18 @@
 <template>
-  <v-dialog v-model="show" max-width="900px" wrap>
-    <add-movie :movie="movie" @submit="show=false"></add-movie>
-  </v-dialog>
+    <add-movie v-if="movie" :movie="movie"></add-movie>
 </template>
 
 <script>
     import AddMovie from './AddMovie.vue';
     export default {
+        props: ['id'],
         components: {
             AddMovie,
         },
-        props: ['visible', 'movie'],
         computed: {
-            show: {
-                get () {
-                    return this.visible
-                },
-                set (value) {
-                    if (!value) {
-                    this.$emit('close')
-                    }
-                }
+            movie() {
+                var movies = this.$store.getters['movies/get']
+                return movies.find(m => m.id === parseInt(this.id))
             }
         }
     }

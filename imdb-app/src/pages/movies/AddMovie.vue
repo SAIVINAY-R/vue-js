@@ -110,15 +110,10 @@
       </v-container>
     </v-form>
     <v-footer>
-      <v-btn @click.stop="" color="primary">SUBMIT</v-btn>
+      <v-btn @click="addMovie()" color="primary">SUBMIT</v-btn>
     </v-footer>
-    <v-dialog v-model="addActor" max-width="600">
-      <add-actor></add-actor>
-    </v-dialog>
-    
-    <v-dialog v-model="addProducer" max-width="600">
-      <add-producer></add-producer>
-    </v-dialog>
+    <add-actor :visible="addActor" @close="addActor=false"></add-actor>
+    <add-producer :visible="addProducer" @close="addProducer=false"></add-producer>
   </v-card>
 </template>
 
@@ -161,15 +156,43 @@
       producerRules: [
         v => !!v || 'Movie should have a producer'
       ],
-      actors: [],
+      actors: null,
       actorsRules: [
         v => !!v || 'Movie should have atleast one actor'
       ],
-      genres: [],
+      genres: null,
       genresRules: [
         v => !!v || 'Movie should have a genre' 
       ]
     }),
+    methods: {
+      addMovie() {
+        if(this.movie != null) {
+          this.$store.dispatch('movies/editMovie', {
+            id: this.movie.id,
+            name: this.moviename,
+            plot: this.movieplot,
+            actorIds: this.actors,
+            genres: this.genres,
+            producerId: this.producer,
+            coverImage: this.movieposter,
+            yearOfRelease: this.releaseyear,
+            router: this.$router
+          })
+        } else {
+          this.$store.dispatch('movies/addMovie', {
+            name: this.moviename,
+            plot: this.movieplot,
+            actorIds: this.actors,
+            genres: this.genres,
+            producerId: this.producer,
+            coverImage: this.movieposter,
+            yearOfRelease: this.releaseyear,
+            router: this.$router
+          })
+        }
+      }
+    },
     computed: {
       producers() {
         return this.$store.getters['producers/get'];
@@ -183,9 +206,12 @@
     },
     beforeMount() {
       if(this.movie != null) {
-        this.moviename = this.movie.Name;
-        this.movieplot = this.movie.Plot;
-        this.releaseyear = this.movie.ReleaseYear;
+        this.moviename = this.movie.name;
+        this.movieplot = this.movie.plot;
+        this.releaseyear = this.movie.yearOfRelease;
+        this.producer = this.movie.producerId;
+        this.actors = this.movie.actorIds.split(',').map(Number)
+        this.genres = this.movie.genres.split(',').map(Number)
       }
     }
   }

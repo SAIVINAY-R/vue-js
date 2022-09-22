@@ -6,23 +6,7 @@ export default {
     namespaced: true,
     state() {
         return {
-            actors: [
-                {
-                    Name: "Actor1"
-                },
-                {
-                    Name: "Actor2"
-                },
-                {
-                    Name: "Actor3"
-                },
-                {
-                    Name: "Actor4"
-                },
-                {
-                    Name: "Actor5"
-                }
-            ]
+            actors: []
         }
     },
     mutations,

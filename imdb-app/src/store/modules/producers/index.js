@@ -6,23 +6,7 @@ export default {
     namespaced: true,
     state() {
         return {
-            producers: [
-                {
-                    Name: "Producer1"
-                },
-                {
-                    Name: "Producer2"
-                },
-                {
-                    Name: "Producer3"
-                },
-                {
-                    Name: "Producer4"
-                },
-                {
-                    Name: "Producer5"
-                }
-            ]
+            producers: []
         }
     },
     mutations,
