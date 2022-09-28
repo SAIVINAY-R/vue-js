@@ -4,7 +4,7 @@
             <v-card-title class="justify-center">
             <h1>Producer Details</h1>
             </v-card-title>
-            <v-form v-model="valid">
+            <v-form v-model="valid" ref="form">
                 <v-container>
                     <v-text-field
                         v-model="producername"
@@ -69,9 +69,9 @@
                     </v-radio-group>
                 </v-container>
                 <v-footer>
-                    <v-btn @click.stop="addProducer()" color="primary">Submit</v-btn>
+                    <v-btn :disabled="!valid" @click.stop="add()" color="primary">Submit</v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn @click.stop="show=false">Close</v-btn>
+                    <v-btn @click.stop="closeDialog()">Close</v-btn>
                 </v-footer>
             </v-form>
         </v-card>
@@ -79,6 +79,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex' 
+
 export default {
     props: ['visible'],
     computed: {
@@ -116,18 +118,20 @@ export default {
         ]
     }),
     methods: {
-        addProducer() {
+        ...mapActions(['addProducer']),
+        add() {
             this.show = false
-            this.$store.dispatch('producers/addProducer', {
+            this.addProducer({
                 name: this.producername,
                 dob: this.dob,
                 bio: this.producerbio,
                 gender: this.gender
             })
-            this.producername = ''
-            this.dob = ""
-            this.producerbio = ''
-            this.gender = ''
+            this.$refs.form.reset();
+        },
+        closeDialog() {
+            this.show = false
+            this.$refs.form.reset();
         }
     }
 }

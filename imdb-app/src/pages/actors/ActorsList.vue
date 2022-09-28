@@ -2,7 +2,7 @@
   <v-main>
     <v-container class="justify" v-if="hasActors">
       <v-layout row wrap>
-        <v-flex xs12 sm6 md4 lg3 v-for="actor in actors" :key="actor.id">
+        <v-flex xs12 sm6 md4 lg3 v-for="actor in getActorsWithDetails" :key="actor.id">
           <v-card flat class="text-xs-center ma-3 elevation-4 overflow-auto card-height">
             <div>
               <v-card-title>
@@ -23,14 +23,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   computed: {
-    actors() {
-      return this.$store.getters["actors/getActors"];
-    },
-    hasActors() {
-      return this.$store.getters["actors/hasActors"];
-    },
+    ...mapGetters(['getActorsWithDetails', 'hasActors']),
   }
 }
 </script>

@@ -79,6 +79,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'App',
 
@@ -89,18 +91,7 @@ export default {
     drawer: false,
   }),
   methods: {
-    loadMovies() {
-      this.$store.dispatch('movies/loadMovies')
-    },
-    loadActors() {
-      this.$store.dispatch('actors/loadActors')
-    },
-    loadProducers() {
-      this.$store.dispatch('producers/loadProducers')
-    },
-    loadGenres() {
-      this.$store.dispatch('genres/loadGenres')
-    }
+    ...mapActions(['loadMovies', 'loadActors', 'loadProducers', 'loadGenres'])
   },
   created() {
     this.loadMovies();

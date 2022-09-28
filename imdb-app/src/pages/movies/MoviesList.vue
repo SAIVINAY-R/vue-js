@@ -7,7 +7,7 @@
     </v-container>
     <v-container class="justify" v-if="hasMovies">
       <v-layout row wrap>
-        <v-flex xs12 sm6 md4 lg3 v-for="movie in movies" :key="movie.id">
+        <v-flex xs12 sm6 md4 lg3 v-for="movie in getMovies" :key="movie.id">
           <v-card flat class="text-xs-center ma-3 elevation-4" min-height="350">
             <v-responsive class="pt-4">
               <div>
@@ -69,6 +69,7 @@
 import MovieDetails from "./MovieDetails.vue";
 import EditMovie from "./EditMovie.vue";
 import DeleteMovie from "./DeleteMovie.vue";
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -86,12 +87,7 @@ export default {
     DeleteMovie,
   },
   computed: {
-    movies() {
-      return this.$store.getters["movies/get"];
-    },
-    hasMovies() {
-      return this.$store.getters["movies/hasMovies"];
-    },
+    ...mapGetters(['getMovies', 'hasMovies']),
     editMovieLink(value) {
       return {
         name: 'edit-movie',

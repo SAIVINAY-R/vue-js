@@ -32,7 +32,7 @@
             xs="7"
           >
             <v-select
-              :items="producers"
+              :items="getProducers"
               label="Movie Producer"
               dense
               required 
@@ -57,7 +57,7 @@
             xs="7"
           >
             <v-select
-              :items="actorsList"
+              :items="getActors"
               label="Movie Actors"
               dense
               required 
@@ -77,7 +77,7 @@
       </v-container>
       <v-container>
         <v-select
-              :items="genresList"
+              :items="getGenres"
               label="Movie Genres"
               dense
               required 
@@ -110,7 +110,7 @@
       </v-container>
     </v-form>
     <v-footer>
-      <v-btn @click="addMovie()" color="primary">SUBMIT</v-btn>
+      <v-btn :disabled="!valid" @click="add()" color="primary">SUBMIT</v-btn>
     </v-footer>
     <add-actor :visible="addActor" @close="addActor=false"></add-actor>
     <add-producer :visible="addProducer" @close="addProducer=false"></add-producer>
@@ -120,6 +120,7 @@
 <script>
   import AddActor from '../actors/AddActor.vue';
   import AddProducer from '../producers/AddProducer.vue'
+  import { mapGetters, mapActions } from 'vuex'
 
   export default {
     components: {
@@ -166,9 +167,10 @@
       ]
     }),
     methods: {
-      addMovie() {
+      ...mapActions(['addMovie', 'editMovie']),
+      async add() {
         if(this.movie != null) {
-          this.$store.dispatch('movies/editMovie', {
+          await this.editMovie({
             id: this.movie.id,
             name: this.moviename,
             plot: this.movieplot,
@@ -180,7 +182,7 @@
             router: this.$router
           })
         } else {
-          this.$store.dispatch('movies/addMovie', {
+          await this.addMovie({
             name: this.moviename,
             plot: this.movieplot,
             actorIds: this.actors,
@@ -194,15 +196,7 @@
       }
     },
     computed: {
-      producers() {
-        return this.$store.getters['producers/get'];
-      },
-      actorsList() {
-        return this.$store.getters['actors/get'];
-      },
-      genresList() {
-        return this.$store.getters['genres/get'];
-      }
+      ...mapGetters(['getProducers', 'getActors', 'getGenres']),
     },
     beforeMount() {
       if(this.movie != null) {

@@ -29,9 +29,12 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     props: ['visible', 'movie'],
     computed: {
+      ...mapGetters(['getProducers', 'getActors', 'getGenres']),
       show: {
         get () {
           return this.visible
@@ -42,28 +45,21 @@
           }
         }
       },
-      producers() {
-        return this.$store.getters['producers/get'];
-      },
-      actorsList() {
-        return this.$store.getters['actors/get'];
-      },
-      genresList() {
-        return this.$store.getters['genres/get'];
-      },
       movieProducerName() {
-        var producer = (this.producers.find(p => p.value == this.movie.producerId))
+        var producers = this.getProducers
+        var producer = (producers.find(p => p.value == this.movie.producerId))
         if(producer) {
           return producer.text
         }
         return ""
       },
       movieActors() {
+        var actorsList = this.getActors
         var actors = ""
         if(this.movie.actorIds) {
           console.log
           for(let i = 0; i < this.movie.actorIds.split(',').map(Number).length; i++) {
-            let actor = ((this.actorsList.find(a => a.value == this.movie.actorIds.split(',').map(Number)[i])))
+            let actor = ((actorsList.find(a => a.value == this.movie.actorIds.split(',').map(Number)[i])))
             if(actor) {
               actors += (actor.text + ", ")
             }
@@ -72,11 +68,12 @@
         return actors.slice(0, -2)
       },
       movieGenres() {
+        var genresList = this.getGenres
         var genres = ""
         if(this.movie.genres) {
           console.log
           for(let i = 0; i < this.movie.genres.split(',').map(Number).length; i++) {
-            let genre = ((this.genresList.find(g => g.value == this.movie.genres.split(',').map(Number)[i])))
+            let genre = ((genresList.find(g => g.value == this.movie.genres.split(',').map(Number)[i])))
             if(genre) {
               genres += (genre.text + ", ")
             }

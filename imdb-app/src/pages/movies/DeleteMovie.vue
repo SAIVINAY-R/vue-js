@@ -10,13 +10,15 @@
         <v-footer>
             <v-btn @click.stop="show=false">Cancel</v-btn>
             <v-spacer></v-spacer>
-            <v-btn @click.stop="deleteMovie()" color="red lighten-1">Yes, Delete it</v-btn>
+            <v-btn @click.stop="deleteMovieFn()" color="red lighten-1">Yes, Delete it</v-btn>
         </v-footer>
       </v-card>
     </v-dialog>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
     props: ['visible', 'movie'],
     computed: {
@@ -32,10 +34,11 @@ export default {
       }
     },
     methods: {
-        deleteMovie() {
-            this.show = false
-            this.$store.dispatch('movies/deleteMovie', {id: this.movie.id})
-        }
+      ...mapActions(['deleteMovie']),
+      async deleteMovieFn() {
+          this.show = false
+          await this.deleteMovie({id: this.movie.id})
+      }
     }
 }
 </script>
