@@ -45,7 +45,7 @@
             sm="4"
             xs="5"  
           >
-            <v-btn @click="addProducer=true" block>Add Producer</v-btn>
+            <v-btn @click="addProducerDialog=true" block>Add Producer</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -71,7 +71,7 @@
             sm="4"
             xs="5"  
           >
-            <v-btn @click="addActor=true" block>Add Actor</v-btn>
+            <v-btn @click="addActorDialog=true" block>Add Actor</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -112,25 +112,27 @@
     <v-footer>
       <v-btn :disabled="!valid" @click="add()" color="primary">SUBMIT</v-btn>
     </v-footer>
-    <add-actor :visible="addActor" @close="addActor=false"></add-actor>
-    <add-producer :visible="addProducer" @close="addProducer=false"></add-producer>
+    <!-- <add-actor :visible="addActor" @close="addActor=false"></add-actor> -->
+    <!-- <add-producer :visible="addProducer" @close="addProducer=false"></add-producer> -->
+    <add-person :visible="addActorDialog" @close="addActorDialog=false" @add="addNewActor"> <h1>Actor Details</h1></add-person>
+    <add-person :visible="addProducerDialog" @close="addProducerDialog=false" @add="addNewProducer"> <h1>Producer Details</h1></add-person>
   </v-card>
 </template>
 
 <script>
-  import AddActor from '../../components/AddActor.vue';
-  import AddProducer from '../../components/AddProducer.vue'
+  // import AddActor from '../../components/AddActor.vue'
+  import AddPerson from '../../components/AddPerson.vue'
+  // import AddProducer from '../../components/AddProducer.vue'
   import { mapGetters, mapActions } from 'vuex'
 
   export default {
     components: {
-      AddActor,
-      AddProducer,
+      AddPerson,
     },
     props: ['movie'],
     data: () => ({
-      addActor: false,
-      addProducer: false,
+      addActorDialog: false,
+      addProducerDialog: false,
       valid: false,
       moviename: '',
       nameRules: [
@@ -157,7 +159,7 @@
       producerRules: [
         v => !!v || 'Movie should have a producer'
       ],
-      actors: null,
+      actors: [],
       actorsRules: [
         v => !!v || 'Movie should have atleast one actor'
       ],
@@ -167,7 +169,7 @@
       ]
     }),
     methods: {
-      ...mapActions(['addMovie', 'editMovie']),
+      ...mapActions(['addMovie', 'editMovie', 'addActor', 'addProducer']),
       async add() {
         if(this.movie != null) {
           await this.editMovie({
@@ -196,10 +198,28 @@
         if(this.getErrors.length === 0) {
           this.$router.push('/movies')
         }
+      },
+      async addNewActor(value) {
+        this.addActorDialog = false
+        await this.addActor({
+            name: value.name,
+            dob: value.dob,
+            bio: value.bio,
+            gender: value.gender
+        })
+      },
+      async addNewProducer(value) {
+        this.addProducerDialog = false
+        this.addProducer({
+            name: value.name,
+            dob: value.dob,
+            bio: value.bio,
+            gender: value.gender
+        })
       }
     },
     computed: {
-      ...mapGetters(['getProducers', 'getActors', 'getGenres', 'getErrors']),
+      ...mapGetters(['getProducers', 'getActors', 'getGenres', 'getErrors'])
     },
     created() {
       if(this.movie != null) {

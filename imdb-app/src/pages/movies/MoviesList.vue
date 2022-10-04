@@ -3,7 +3,7 @@
     <router-link to="/movies/add">
       <v-btn>Add Movie</v-btn>
     </router-link>
-    <v-layout class="mt-2" row wrap v-if="hasMovies">
+    <v-layout class="mt-2" row v-if="hasMovies">
       <v-flex xs12 sm6 md4 lg3 v-for="movie in getMovies" :key="movie.id">
         <v-card flat class="text-xs-center ma-3 elevation-4" min-height="350">
           <v-responsive class="pt-4">

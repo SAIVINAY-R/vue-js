@@ -1,6 +1,6 @@
 <template>
   <v-container class="justify">
-    <v-layout row wrap v-if="hasActors">
+    <v-layout row v-if="hasActors">
       <v-flex xs12 sm6 md4 lg3 v-for="actor in getActorsWithDetails" :key="actor.id">
         <v-card flat class="text-xs-center ma-3 elevation-4 overflow-auto card-height">
           <div>
