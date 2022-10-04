@@ -2,9 +2,7 @@ import VueRouter from 'vue-router';
 import Vue from 'vue';
 
 import ActorsList from './pages/actors/ActorsList.vue';
-
 import GenresList from './pages/genres/GenresList.vue';
-
 import MoviesList from './pages/movies/MoviesList.vue';
 import AddMovie from './pages/movies/AddMovie.vue';
 import EditMovie from './pages/movies/EditMovie.vue';

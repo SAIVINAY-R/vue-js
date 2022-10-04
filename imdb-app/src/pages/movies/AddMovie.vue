@@ -1,5 +1,5 @@
 <template>
-  <v-card class="elevation-5 ma-auto mt-5" max-width="800">
+  <v-card class="elevation-5 mx-auto mt-5" max-width="800">
     <v-card-title class="justify-center">
       <h1>Movie Details</h1>
     </v-card-title>
@@ -28,7 +28,7 @@
         <v-row>
           <v-col
             md="9"
-            sm="9"
+            sm="8"
             xs="7"
           >
             <v-select
@@ -42,10 +42,10 @@
           </v-col>
           <v-col
             md="3"
-            sm="3"
+            sm="4"
             xs="5"  
           >
-            <v-btn @click.stop="addProducer=true">Add Producer</v-btn>
+            <v-btn @click="addProducer=true" block>Add Producer</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -53,7 +53,7 @@
         <v-row>
           <v-col
             md="9"
-            sm="9"
+            sm="8"
             xs="7"
           >
             <v-select
@@ -68,10 +68,10 @@
           </v-col>
           <v-col
             md="3"
-            sm="3"
+            sm="4"
             xs="5"  
           >
-            <v-btn @click.stop="addActor=true">Add Actor</v-btn>
+            <v-btn @click="addActor=true" block>Add Actor</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -118,8 +118,8 @@
 </template>
 
 <script>
-  import AddActor from '../actors/AddActor.vue';
-  import AddProducer from '../producers/AddProducer.vue'
+  import AddActor from '../../components/AddActor.vue';
+  import AddProducer from '../../components/AddProducer.vue'
   import { mapGetters, mapActions } from 'vuex'
 
   export default {
@@ -193,12 +193,15 @@
             router: this.$router
           })
         }
+        if(this.getErrors.length === 0) {
+          this.$router.push('/movies')
+        }
       }
     },
     computed: {
-      ...mapGetters(['getProducers', 'getActors', 'getGenres']),
+      ...mapGetters(['getProducers', 'getActors', 'getGenres', 'getErrors']),
     },
-    beforeMount() {
+    created() {
       if(this.movie != null) {
         this.moviename = this.movie.name;
         this.movieplot = this.movie.plot;
@@ -210,7 +213,3 @@
     }
   }
 </script>
-
-<style>
-
-</style>

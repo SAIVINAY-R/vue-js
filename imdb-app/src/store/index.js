@@ -11,7 +11,8 @@ const store = new Vuex.Store({
             producers: [],
             movies: [],
             actors: [],
-            genres: []
+            genres: [],
+            errors: [],
         }
     },
     mutations,

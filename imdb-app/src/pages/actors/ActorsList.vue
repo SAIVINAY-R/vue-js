@@ -1,25 +1,21 @@
 <template>
-  <v-main>
-    <v-container class="justify" v-if="hasActors">
-      <v-layout row wrap>
-        <v-flex xs12 sm6 md4 lg3 v-for="actor in getActorsWithDetails" :key="actor.id">
-          <v-card flat class="text-xs-center ma-3 elevation-4 overflow-auto card-height">
-            <div>
-              <v-card-title>
-                {{ actor.name }}
-              </v-card-title>
-              <v-card-text>
-                {{ actor.bio }}
-              </v-card-text>
-            </div>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </v-container>
-    <v-container v-else>
-      <h3>Actors List is Empty</h3>
-    </v-container>
-  </v-main>
+  <v-container class="justify">
+    <v-layout row wrap v-if="hasActors">
+      <v-flex xs12 sm6 md4 lg3 v-for="actor in getActorsWithDetails" :key="actor.id">
+        <v-card flat class="text-xs-center ma-3 elevation-4 overflow-auto card-height">
+          <div>
+            <v-card-title>
+              {{ actor.name }}
+            </v-card-title>
+            <v-card-text>
+              {{ actor.bio }}
+            </v-card-text>
+          </div>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <h3 v-else>Actors List is Empty</h3>
+  </v-container>
 </template>
 
 <script>

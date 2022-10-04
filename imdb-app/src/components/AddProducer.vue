@@ -69,7 +69,7 @@
                     </v-radio-group>
                 </v-container>
                 <v-footer>
-                    <v-btn :disabled="!valid" @click.stop="add()" color="primary">Submit</v-btn>
+                    <v-btn :disabled="!valid" @click="add()" color="primary">Submit</v-btn>
                     <v-spacer></v-spacer>
                     <v-btn @click.stop="closeDialog()">Close</v-btn>
                 </v-footer>
@@ -136,7 +136,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

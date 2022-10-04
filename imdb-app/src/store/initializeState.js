@@ -54,6 +54,9 @@ const getters = {
     hasActors(state) {
         return state.actors && state.actors.length > 0;
     },
+    getErrors(state) {
+        return state.errors
+    }
 }
 
 const mutations = {
@@ -88,6 +91,13 @@ const mutations = {
     },
     addProducer(state, payload) {
         state.producers.push(payload);
+    },
+    addError(state, payload) {
+        console.log(payload)
+        state.errors.push(payload)
+    },
+    emptyErrors(state) {
+        state.errors = []
     }
 }
 
@@ -104,6 +114,7 @@ const actions = {
         }
     },
     async addMovie(context, payload) {
+        context.commit('emptyErrors')
         var movieFormData = new FormData();
         movieFormData.append("name", payload.name)
         movieFormData.append("plot", payload.plot)
@@ -116,14 +127,21 @@ const actions = {
         movieFormData.append("coverImage", payload.coverImage)
         movieFormData.append("producerId", payload.producerId)
         movieFormData.append("yearOfRelease", payload.yearOfRelease)
-        var response = await ApiServices.postFormData(`movies/`, movieFormData)
-        const responseData = response.data;
-        if(response.status === 201) {
-            context.commit('addMovie', responseData);
-        }
-        payload.router.push('/movies')
+        await ApiServices.postFormData(`movies/`, movieFormData).then(
+            function(response) {
+                if(response.status === 201) {
+                    context.commit('addMovie', response.data);
+                }
+            }
+        ).catch(
+            function (error) {
+                console.log(error)
+                context.commit('addError', error.response.data);
+            }
+          )
     },
     async editMovie(context, payload) {
+        context.commit('emptyErrors')
         var movieFormData = new FormData();
         movieFormData.append("name", payload.name)
         movieFormData.append("plot", payload.plot)
@@ -137,12 +155,18 @@ const actions = {
         movieFormData.append("producerId", payload.producerId)
         movieFormData.append("yearOfRelease", payload.yearOfRelease)
         movieFormData.append("id", payload.id)
-        var response = await ApiServices.putFormData("movies/" + payload.id, movieFormData)
-        const responseData = response.data;
-        if(response.status === 200) {
-            context.commit('editMovie', responseData);
-        }
-        payload.router.push('/movies')
+        await ApiServices.putFormData("movies/" + payload.id, movieFormData).then(
+            function(response) {
+                if(response.status === 200) {
+                    context.commit('editMovie', response.data);
+                }
+            }
+        ).catch(
+            function (error) {
+                console.log(error)
+                context.commit('addError', error.response.data);
+            }
+          )
     },
     async setMovie(context, payload) {
         const response = await ApiServices.get(`movies/${ payload.id }`);
@@ -156,10 +180,13 @@ const actions = {
         }
     },
     async deleteMovie(context, payload) {
+        context.commit('emptyErrors')
         const response = await ApiServices.delete(`movies/${ payload.id }`)
 
         if(response.ok) {
             context.commit('removeMovie', payload)
+        }else {
+            context.commit('addError', response.data);
         }
     },
     async loadActors(context) {
@@ -174,11 +201,14 @@ const actions = {
         }
     },
     async addActor(context, payload) {
+        context.commit('emptyErrors')
         var response = await ApiServices.postJsonData('actors', payload)
         const responseData = response.data
 
         if(response.status === 201) {
             context.commit('addActor', responseData);
+        }else {
+            context.commit('addError', responseData);
         }
     },
     async loadGenres(context) {
@@ -204,11 +234,14 @@ const actions = {
         }
     },
     async addProducer(context, payload) {
+        context.commit('emptyErrors')
         var response = await ApiServices.postJsonData(`producers`, payload)
         const responseData = response.data;
 
         if(response.status === 201) {
             context.commit('addProducer', responseData);
+        }else {
+            context.commit('addError', responseData);
         }
     }
 }

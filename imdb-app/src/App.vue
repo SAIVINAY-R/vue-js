@@ -10,7 +10,7 @@
         <v-list-item-icon>
           <v-img
             class="mx-2"
-            :src="require('E:\\DeltaX\\vue-js\\imdb-app\\src\\assets\\deltaX-icon.png')"
+            :src="require('./assets/deltaX-icon.png')"
             max-height="40"
             max-width="40"
             contain
@@ -27,7 +27,6 @@
   
       <v-list
         dense
-        nav
       >
         <v-list-item
           link
@@ -64,7 +63,7 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-img
         class="mx-2"
-        :src="require('E:\\DeltaX\\vue-js\\imdb-app\\src\\assets\\deltaX-icon.png')"
+        :src="require('./assets/deltaX-icon.png')"
         max-height="40"
         max-width="40"
         contain
@@ -83,9 +82,6 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
-
-  components: {
-  },
 
   data: () => ({
     drawer: false,

@@ -21,7 +21,7 @@
       </div>
       <v-footer>
         <v-card-actions>
-          <v-btn color="primary" @click.stop="show=false">OK</v-btn>
+          <v-btn color="primary" @click="show=false">OK</v-btn>
         </v-card-actions>
       </v-footer>
     </v-card>
